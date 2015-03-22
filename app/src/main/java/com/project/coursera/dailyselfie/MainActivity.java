@@ -13,9 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,8 +24,7 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
-    private static final File STORAGE_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-    Uri uri;
+    PhotoListFragment listFragment;
     public static final String PHOTO_PATH_KEY = "photo path";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +34,12 @@ public class MainActivity extends ActionBarActivity {
 
     }
     private void initialize(){
-        PhotoListFragment listFragment;
-        listFragment= new PhotoListFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container, listFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(listFragment==null) {
+            listFragment = new PhotoListFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.container, listFragment);
+            fragmentTransaction.commit();
+        }
     }
 
     private void dispatchTakePictureIntent() {
@@ -53,7 +49,8 @@ public class MainActivity extends ActionBarActivity {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = ImageFileManager.getImageFileManager().createImageFile(mCurrentPhotoPath);
+                photoFile = ImageFileManager.getImageFileManager().createImageFile();
+                mCurrentPhotoPath=photoFile.getAbsolutePath();
             } catch (IOException ex) {
                 // Error occurred while creating the File
 

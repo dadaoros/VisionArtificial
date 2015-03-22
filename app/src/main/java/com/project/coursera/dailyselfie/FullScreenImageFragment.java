@@ -25,7 +25,8 @@ public class FullScreenImageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCurrentPhotoPath=getArguments().getString(MainActivity.PHOTO_PATH_KEY);
-        }
+        }else
+            Log.e("Argumentos","Nulos");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

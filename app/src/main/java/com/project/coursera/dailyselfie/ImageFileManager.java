@@ -61,7 +61,7 @@ public class ImageFileManager {
         bmOptions.inPurgeable = true;
         return BitmapFactory.decodeFile(photoPath, bmOptions);
     }
-    public File createImageFile(String mCurrentPhotoPath) throws IOException {
+    public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "SELFIE_" + timeStamp + "_";
@@ -73,11 +73,6 @@ public class ImageFileManager {
                 storageDir      /* directory */
         );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        image.getPath();
-        mCurrentPhotoPath = image.getAbsolutePath();
-        Log.d("absolutePath",mCurrentPhotoPath);
-        Log.d("Path", image.toURI().toString());
 
         return image;
     }
