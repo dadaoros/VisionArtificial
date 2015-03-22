@@ -1,12 +1,14 @@
 package com.project.coursera.dailyselfie;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -21,13 +23,17 @@ import java.io.IOException;
 
 public class MainActivity extends ActionBarActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_ALARM_CODE =0;
     PhotoListFragment listFragment;
     String mCurrentPhotoPath;
+    private static final long INITIAL_ALARM_DELAY = 10 * 1000L;
+    private static final long ALARM_DELAY = 2 *60 * 1000L;
     public static final String PHOTO_PATH_KEY = "photo path";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initialize();
 
     }
@@ -63,15 +69,18 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-/*
+
     private void setAlarm(){
         AlarmManager alarmManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent=new Intent(MainActivity.this,AlarmNotificationReceiver.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(MainActivity.this,REQUEST_ALARM_CODE,alarmIntent,0);
+
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP
-                , System.currentTimeMillis() + 2000
-                , 2000
-                , mSelfiePendingIntent);
+                , System.currentTimeMillis() + INITIAL_ALARM_DELAY
+                , ALARM_DELAY
+                , pendingIntent);
     }
-*/
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -80,6 +89,10 @@ public class MainActivity extends ActionBarActivity {
             //showFullScreen(mCurrentPhotoPath);
 
         }
+    }
+    public void onStop(){
+        super.onStop();
+        setAlarm();
     }
     public void showFullScreen(String path){
         Bundle bundle=new Bundle();
