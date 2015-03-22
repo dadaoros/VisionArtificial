@@ -27,23 +27,31 @@ public class PhotoListFragment extends Fragment {
     ImageFileManager imageFileManager;
     ListView selfieListView;
     View view;
+    List<Selfie> selfies;
     public PhotoListFragment() {
         // Required empty public constructor
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        imageFileManager=ImageFileManager.getImageFileManager();
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_photo_list, container, false);
-        initialize();
+        //if(selfies==null)
+         initialize();
         return view;
     }
     public void initialize(){
-        imageFileManager=new ImageFileManager();
+        selfies =imageFileManager.getSelfies();
         selfieListView=(ListView)view.findViewById(R.id.list_selfies);
-        List<Selfie> selfies=imageFileManager.getSelfies();
         if(selfies!=null && selfies.isEmpty()==false) {
             SelfiesListAdapter selfiesListAdapter = new SelfiesListAdapter(selfies, view.getContext());
             selfiesListAdapter.setNotifyOnChange(true);

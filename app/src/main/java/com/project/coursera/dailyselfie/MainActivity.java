@@ -10,16 +10,12 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,7 +33,8 @@ public class MainActivity extends ActionBarActivity {
         if(listFragment==null) {
             listFragment = new PhotoListFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.container, listFragment);
+            fragmentTransaction.replace(R.id.container, listFragment);
+            //listFragment.setRetainInstance(true);
             fragmentTransaction.commit();
         }
     }
