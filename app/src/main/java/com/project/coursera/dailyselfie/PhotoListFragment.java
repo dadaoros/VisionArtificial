@@ -45,11 +45,10 @@ public class PhotoListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_photo_list, container, false);
-        //if(selfies==null)
-         initialize();
+        initialize();
         return view;
     }
-    public void initialize(){
+    private void initialize(){
         selfies =imageFileManager.getSelfies();
         selfieListView=(ListView)view.findViewById(R.id.list_selfies);
         if(selfies!=null && selfies.isEmpty()==false) {
@@ -69,6 +68,9 @@ public class PhotoListFragment extends Fragment {
                 ((MainActivity)getActivity()).showFullScreen(((Selfie) listView.getAdapter().getItem(position)).getPath());
             }
         });
+    }
+    public void update(){
+        initialize();
     }
 
 

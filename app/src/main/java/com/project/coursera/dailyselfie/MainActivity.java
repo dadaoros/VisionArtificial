@@ -1,5 +1,6 @@
 package com.project.coursera.dailyselfie;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class MainActivity extends ActionBarActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
     PhotoListFragment listFragment;
+    String mCurrentPhotoPath;
     public static final String PHOTO_PATH_KEY = "photo path";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +63,21 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-
-    String mCurrentPhotoPath;
-
-
-
+/*
+    private void setAlarm(){
+        AlarmManager alarmManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP
+                , System.currentTimeMillis() + 2000
+                , 2000
+                , mSelfiePendingIntent);
+    }
+*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            showFullScreen(mCurrentPhotoPath);
+            listFragment.update();
+            //showFullScreen(mCurrentPhotoPath);
 
         }
     }
