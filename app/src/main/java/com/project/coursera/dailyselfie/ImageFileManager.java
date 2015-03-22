@@ -1,6 +1,7 @@
 package com.project.coursera.dailyselfie;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
@@ -16,6 +17,8 @@ import java.util.List;
  */
 public class ImageFileManager {
     private static ImageFileManager imageFileManager=new ImageFileManager();
+    public static final int THUMB_DIM =50;
+
     private static File STORAGE_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
     private static final String TAG = "Debug";
 
@@ -30,7 +33,7 @@ public class ImageFileManager {
                         new Selfie(
                                 file.getName()
                                 , new Date(file.lastModified())
-                                , getSelfieThumbnail(file.getAbsolutePath())
+                                , getThumbnail(file.getAbsolutePath())
                                 , file.getAbsolutePath()
                         )
                 );
@@ -39,8 +42,24 @@ public class ImageFileManager {
         return selfieList;
     }
 
-    private Bitmap getSelfieThumbnail(String absolutePath) {
-        return null;
+    private Bitmap getThumbnail(String photoPath) {
+        Log.i(TAG, "Getting selfie thumbnails");
+// Get the dimensions of the View
+        int targetW = THUMB_DIM;
+        int targetH = THUMB_DIM;
+// Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+// Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+// Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+        return BitmapFactory.decodeFile(photoPath, bmOptions);
     }
     public File createImageFile(String mCurrentPhotoPath) throws IOException {
         // Create an image file name

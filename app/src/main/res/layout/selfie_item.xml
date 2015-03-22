@@ -10,9 +10,9 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:paddingTop="5sp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingTop="5dp"
         android:src="@drawable/abc_ratingbar_full_material"/>
     <TextView android:id="@+id/day_week"
         android:textSize="25sp"

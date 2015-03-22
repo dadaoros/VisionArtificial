@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,10 +47,12 @@ public class SelfiesListAdapter extends ArrayAdapter {
         TextView selfieName= (TextView) view.findViewById(R.id.photo_name);
         TextView selfieDayWeek= (TextView) view.findViewById(R.id.day_week);
         TextView selfieDate= (TextView) view.findViewById(R.id.photo_date);
+        ImageView selfieMini=(ImageView)view.findViewById(R.id.image_view);
         Selfie selfie=selfies.get(position);
         selfieName.setText(selfie.getName());
         selfieDayWeek.setText(" "+selfie.getDayWeek());
         selfieDate.setText(selfie.getDatetime().toString());
+        selfieMini.setImageBitmap(selfie.getMini());
 
         return view;
     }
