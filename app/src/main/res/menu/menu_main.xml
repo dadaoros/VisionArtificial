@@ -8,5 +8,16 @@
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_action_camera"
         android:title="" />
+    <item
+        android:id="@+id/action_save_item"
+        android:icon="@drawable/ic_action_save"
+        app:showAsAction="ifRoom|withText"
+        android:visible="false"
+        android:title=""/>
+    <item
+        android:id="@+id/action_pick_photo"
+        android:icon="@drawable/ic_action_new_picture"
+        app:showAsAction="ifRoom|withText"
+        android:title=""/>
 </menu>
 
